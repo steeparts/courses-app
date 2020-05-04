@@ -1,5 +1,6 @@
 import React from 'react';
 import {SwitcherContainer, FilterContainer, CourseListContainer} from './containers';
+import {Preloader} from './components';
 import {connect} from 'react-redux';
 import {configureData} from './redux/actions';
 
@@ -10,7 +11,7 @@ class App extends React.Component {
 
     render() {
         if (!this.props.appIsReady) {
-            return <div className='container'>Загрузка...</div>;
+            return <Preloader/>;
         }
 
         return (
