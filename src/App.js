@@ -1,26 +1,33 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {SwitcherContainer, FilterContainer, CourseListContainer} from './containers';
+import {connect} from 'react-redux';
+import {configureData} from './redux/actions';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+    componentDidMount() {
+        this.props.configureData();
+    }
+
+    render() {
+        if (!this.props.appIsReady) {
+            return <div className='container'>Загрузка...</div>;
+        }
+
+        return (
+            <div className='wrapper'>
+                <div className="container">
+                    <h1>Витрина</h1>
+                    <SwitcherContainer/>
+                    <FilterContainer/>
+                    <CourseListContainer/>
+                </div>
+            </div>
+        );
+    }
 }
 
-export default App;
+const mapStateToProps = state => ({
+    appIsReady: state.app.appIsReady
+});
+
+export default connect(mapStateToProps, {configureData})(App);
